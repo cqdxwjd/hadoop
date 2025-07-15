@@ -30,6 +30,10 @@ On Linux / Mac:
 
     $ ./start-build-env.sh
 
+    Build distribution
+
+    $ mvn clean package -Pdist,native -DskipTests -Dtar
+
 The prompt which is then presented is located at a mounted version of the source tree
 and all required tools for testing and building have been installed and configured.
 
