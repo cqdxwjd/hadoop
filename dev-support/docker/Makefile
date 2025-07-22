@@ -9,3 +9,12 @@ emr-hdfs:
 		--platform linux/amd64 \
 		-f Dockerfile.emr-hdfs .
 	docker push hub.hmf.xyz/emr/hdfs:${HADOOP_VERSION}
+
+emr-yarn:
+	docker buildx build \
+		--build-arg HADOOP_VERSION=${HADOOP_VERSION} \
+        --build-arg RANGER_VERSION=${RANGER_VERSION} \
+		-t hub.hmf.xyz/emr/yarn:${HADOOP_VERSION} \
+		--platform linux/amd64 \
+		-f Dockerfile.emr-yarn .
+	docker push hub.hmf.xyz/emr/yarn:${HADOOP_VERSION}
