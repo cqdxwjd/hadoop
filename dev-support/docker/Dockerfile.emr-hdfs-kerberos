@@ -1,4 +1,4 @@
-FROM hub.hmf.xyz/base/emr-dsp-kerberos-client:8
+FROM hub.hmf.xyz/base/emr-hdfs-base:8
 
 ARG HADOOP_VERSION
 ARG RANGER_VERSION
@@ -11,6 +11,8 @@ RUN yum makecache && \
         nmap-ncat \
         jq && \
     yum clean all
+
+RUN ln -s /usr/bin/python2 /usr/bin/python
 
 RUN groupadd ranger && \
     useradd -g ranger -ms /bin/bash ranger && \
