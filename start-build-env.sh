@@ -27,7 +27,7 @@ if [[ "$CPU_ARCH" = "aarch64" || "$CPU_ARCH" = "arm64" ]]; then
   DOCKER_FILE="${DOCKER_DIR}/Dockerfile_aarch64"
 fi
 
-docker build -t hadoop-build -f $DOCKER_FILE $DOCKER_DIR
+docker build -t hadoop-build -f $DOCKER_FILE $DOCKER_DIR --platform=linux/amd64
 
 USER_NAME=${SUDO_USER:=$USER}
 USER_ID=$(id -u "${USER_NAME}")
@@ -69,7 +69,7 @@ fi
 # Set the home directory in the Docker container.
 DOCKER_HOME_DIR=${DOCKER_HOME_DIR:-/home/${USER_NAME}}
 
-docker build -t "hadoop-build-${USER_ID}" - <<UserSpecificDocker
+docker build --platform=linux/amd64 -t "hadoop-build-${USER_ID}" - <<UserSpecificDocker
 FROM hadoop-build
 RUN rm -f /var/log/faillog /var/log/lastlog
 RUN groupadd --non-unique -g ${GROUP_ID} ${USER_NAME}

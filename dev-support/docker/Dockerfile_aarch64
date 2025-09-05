@@ -17,7 +17,7 @@
 # Dockerfile for installing the necessary dependencies for building Hadoop.
 # See BUILDING.txt.
 
-FROM ubuntu:focal
+FROM hub.hmf.xyz/library/ubuntu:focal
 
 WORKDIR /root
 
@@ -37,10 +37,10 @@ ENV DEBCONF_TERSE true
 # sufficient or irrelevant.
 ######
 # hadolint ignore=DL3008
-RUN echo "deb http://mirrors.aliyun.com/ubuntu-ports/ focal main restricted universe multiverse" > /etc/apt/sources.list \
-        && echo "deb http://mirrors.aliyun.com/ubuntu-ports/ focal-security main restricted universe multiverse" >> /etc/apt/sources.list \
-        && echo "deb http://mirrors.aliyun.com/ubuntu-ports/ focal-updates main restricted universe multiverse" >> /etc/apt/sources.list \
-        && echo "deb http://mirrors.aliyun.com/ubuntu-ports/ focal-backports main restricted universe multiverse" >> /etc/apt/sources.list \
+RUN echo "deb http://mirrors.aliyun.com/ubuntu/ focal main restricted universe multiverse" > /etc/apt/sources.list \
+        && echo "deb http://mirrors.aliyun.com/ubuntu/ focal-security main restricted universe multiverse" >> /etc/apt/sources.list \
+        && echo "deb http://mirrors.aliyun.com/ubuntu/ focal-updates main restricted universe multiverse" >> /etc/apt/sources.list \
+        && echo "deb http://mirrors.aliyun.com/ubuntu/ focal-backports main restricted universe multiverse" >> /etc/apt/sources.list \
         && apt-get -q update \
     && apt-get -q install -y --no-install-recommends \
         ant \
@@ -104,7 +104,7 @@ ENV PYTHONIOENCODING=utf-8
 ######
 ENV MAVEN_HOME /usr
 # JAVA_HOME must be set in Maven >= 3.5.0 (MNG-6003)
-ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-arm64
+ENV JAVA_HOME /usr/lib/jvm/java-8-openjdk-amd64
 
 #######
 # Install SpotBugs 4.2.2
