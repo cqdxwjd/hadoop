@@ -3,17 +3,13 @@ FROM hub.hmf.xyz/base/hmf-centos:8
 ARG HADOOP_VERSION
 ARG RANGER_VERSION
 
-RUN mkdir -p /etc/yum.repos.d/backup && \
-    mv /etc/yum.repos.d/*.repo /etc/yum.repos.d/backup/ && \
-    curl -o /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-8.repo && \
-    yum makecache && \
+RUN yum makecache && \
     yum install -y \
         sudo \
         python2-pip \
         wget \
         nmap-ncat \
-        jq \
-        java-1.8.0-openjdk
+        jq
 
 RUN groupadd ranger && \
     useradd -g ranger -ms /bin/bash ranger && \
@@ -40,14 +36,13 @@ ADD ./downloads/ranger-${RANGER_VERSION}-hdfs-plugin.tar.gz /opt/ranger/
 RUN ln -s /opt/hadoop-${HADOOP_VERSION} /opt/hadoop && \
     ln -s /opt/ranger/ranger-${RANGER_VERSION}-hdfs-plugin /opt/ranger/ranger-hdfs-plugin
 
-ENV JAVA_HOME=/usr/lib/jvm/jre
-ENV HADOOP_HOME        /opt/hadoop
-ENV HADOOP_CONF_DIR    /opt/hadoop/etc/hadoop
-ENV HADOOP_HDFS_HOME   /opt/hadoop
-ENV HADOOP_MAPRED_HOME /opt/hadoop
-ENV HADOOP_COMMON_HOME /opt/hadoop
-ENV YARN_HOME          /opt/hadoop
-ENV PATH               /usr/java/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/opt/hadoop/bin
-ENV RANGER_HOME    /opt/ranger
+ENV HADOOP_HOME=/opt/hadoop
+ENV HADOOP_CONF_DIR=/opt/hadoop/etc/hadoop
+ENV HADOOP_HDFS_HOME=/opt/hadoop
+ENV HADOOP_MAPRED_HOME=/opt/hadoop
+ENV HADOOP_COMMON_HOME=/opt/hadoop
+ENV YARN_HOME=/opt/hadoop
+ENV PATH=$PATH:$HADOOP_HOME/bin
+ENV RANGER_HOME=/opt/ranger
 
 ENTRYPOINT [ "/bin/bash" ]
