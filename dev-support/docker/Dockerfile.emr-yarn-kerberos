@@ -1,0 +1,54 @@
+FROM hub.hmf.xyz/base/emr-hdfs-base:8
+
+ARG HADOOP_VERSION
+ARG RANGER_VERSION
+
+RUN mkdir -p /etc/yum.repos.d/backup && \
+    mv /etc/yum.repos.d/*.repo /etc/yum.repos.d/backup/ && \
+    curl -o /etc/yum.repos.d/CentOS-Base.repo http://mirrors.aliyun.com/repo/Centos-8.repo && \
+    yum makecache && \
+    yum install -y \
+        sudo \
+        python2-pip \
+        wget \
+        nmap-ncat \
+        jq && \
+    yum clean all
+
+RUN ln -s /usr/bin/python2 /usr/bin/python
+
+RUN groupadd ranger && \
+    useradd -g ranger -ms /bin/bash ranger && \
+    useradd -g ranger -ms /bin/bash rangeradmin && \
+    useradd -g ranger -ms /bin/bash rangerusersync && \
+    useradd -g ranger -ms /bin/bash rangertagsync && \
+    useradd -g ranger -ms /bin/bash rangerkms && \
+    groupadd hadoop && \
+    useradd -g hadoop -ms /bin/bash hdfs && \
+    useradd -g hadoop -ms /bin/bash yarn && \
+    useradd -g hadoop -ms /bin/bash mapred && \
+    useradd -g hadoop -ms /bin/bash hive && \
+    useradd -g hadoop -ms /bin/bash hbase && \
+    useradd -g hadoop -ms /bin/bash kafka && \
+    groupadd knox && \
+    useradd -g knox -ms /bin/bash knox && \
+    chown -R ranger:ranger /home/ranger && \
+    mkdir -p /opt/ranger && \
+    chown -R ranger:ranger /opt/ranger
+
+ADD ./downloads/hadoop-${HADOOP_VERSION}.tar.gz /opt/
+ADD ./downloads/ranger-${RANGER_VERSION}-yarn-plugin.tar.gz /opt/ranger/
+
+RUN ln -s /opt/hadoop-${HADOOP_VERSION} /opt/hadoop && \
+    ln -s /opt/ranger/ranger-${RANGER_VERSION}-yarn-plugin /opt/ranger/ranger-yarn-plugin
+
+ENV HADOOP_HOME=/opt/hadoop
+ENV HADOOP_CONF_DIR=/opt/hadoop/etc/hadoop
+ENV HADOOP_HDFS_HOME=/opt/hadoop
+ENV HADOOP_MAPRED_HOME=/opt/hadoop
+ENV HADOOP_COMMON_HOME=/opt/hadoop
+ENV YARN_HOME=/opt/hadoop
+ENV PATH=$PATH:$HADOOP_HOME/bin:$HADOOP_HOME/sbin
+ENV RANGER_HOME=/opt/ranger
+
+ENTRYPOINT [ "/bin/bash" ]
