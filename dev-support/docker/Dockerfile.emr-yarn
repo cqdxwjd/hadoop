@@ -40,7 +40,6 @@ ADD ./downloads/ranger-${RANGER_VERSION}-yarn-plugin.tar.gz /opt/ranger/
 RUN ln -s /opt/hadoop-${HADOOP_VERSION} /opt/hadoop && \
     ln -s /opt/ranger/ranger-${RANGER_VERSION}-yarn-plugin /opt/ranger/ranger-yarn-plugin
 
-ENV JAVA_HOME=/usr/lib/jvm/jre
 ENV HADOOP_HOME        /opt/hadoop
 ENV HADOOP_CONF_DIR    /opt/hadoop/etc/hadoop
 ENV HADOOP_HDFS_HOME   /opt/hadoop
