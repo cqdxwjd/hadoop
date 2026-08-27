@@ -15,10 +15,10 @@ emr-hdfs-kerberos:
 	docker buildx build \
 		--build-arg HADOOP_VERSION=${HADOOP_VERSION} \
         --build-arg RANGER_VERSION=${RANGER_VERSION} \
-		-t hub.hmf.xyz/emr/hdfs-kerberos:${HADOOP_VERSION} \
+		-t hub.hmf.xyz/emr/hdfs-kerberos:${HADOOP_TAG} \
 		--platform linux/amd64 \
 		-f Dockerfile.emr-hdfs-kerberos .
-	docker push hub.hmf.xyz/emr/hdfs-kerberos:${HADOOP_VERSION}
+	docker push hub.hmf.xyz/emr/hdfs-kerberos:${HADOOP_TAG}
 
 emr-yarn:
 	docker buildx build \
@@ -33,7 +33,7 @@ emr-yarn-kerberos:
 	docker buildx build \
 		--build-arg HADOOP_VERSION=${HADOOP_VERSION} \
         --build-arg RANGER_VERSION=${RANGER_VERSION} \
-		-t hub.hmf.xyz/emr/yarn-kerberos:${HADOOP_VERSION} \
+		-t hub.hmf.xyz/emr/yarn-kerberos:${HADOOP_TAG} \
 		--platform linux/amd64 \
 		-f Dockerfile.emr-yarn-kerberos .
-	docker push hub.hmf.xyz/emr/yarn-kerberos:${HADOOP_VERSION}
+	docker push hub.hmf.xyz/emr/yarn-kerberos:${HADOOP_TAG}
