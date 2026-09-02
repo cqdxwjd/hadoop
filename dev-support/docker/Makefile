@@ -1,6 +1,6 @@
 RANGER_VERSION=2.4.0
 HADOOP_VERSION=3.3.6
-HADOOP_TAG=3.3.6.2
+HADOOP_TAG=3.3.6.3
 
 emr-hdfs:
 	docker buildx build \

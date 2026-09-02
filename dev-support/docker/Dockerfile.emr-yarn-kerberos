@@ -28,6 +28,7 @@ RUN groupadd ranger && \
     useradd -g hadoop -ms /bin/bash yarn && \
     useradd -g hadoop -ms /bin/bash mapred && \
     useradd -g hadoop -ms /bin/bash hive && \
+    useradd -g hadoop -ms /bin/bash hiveserver2 && \
     useradd -g hadoop -ms /bin/bash hbase && \
     useradd -g hadoop -ms /bin/bash kafka && \
     groupadd knox && \
